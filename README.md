@@ -25,7 +25,9 @@ npm install && bower install
 
 ##Running the Development Server
 
-Simply run ```grunt serve``` and you will start a local development server and open Chrome.  Watch tasks will be running, and your browser will be automatically refreshed whenever a file in the repo changes.
+Simply run ```grunt serve --force``` and you will start a local development server and open Chrome.  Watch tasks will be running, and your browser will be automatically refreshed whenever a file in the repo changes.
+
+Note that we're using the ```--force``` flag in the grunt serve task above to bypass the restrictive (but necessary!) linting required by the famo.us build process.  I'll probably pass back around and clean up the messy parts of my code.
 
 You can run serve with ```--port=9001``` to manually pick the port that the server will run on
 
