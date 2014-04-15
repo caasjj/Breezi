@@ -23,11 +23,11 @@ module.exports = function(grunt) {
             options: {
                 config: '.eslintrc'
             },
-            target: ['<%= config.app %>/src/**/**.js']
+            target: ['<%= config.app %>/src/views/**.js']
         },
 
         jscs: {
-            src: ['<%= config.app %>/src/**/**.js', 'Gruntfile.js'],
+            src: ['<%= config.app %>/src/views/**.js', 'Gruntfile.js'],
             options: {
                 config: '.jscsrc'
             }
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
                 tasks: ['bower']
             },
             js: {
-                files: ['<%= config.app %>/src/**/**.js'],
+                files: ['<%= config.app %>/src/views/**.js'],
                 tasks: ['jscs', 'eslint'],
                 options: {
                     livereload: true

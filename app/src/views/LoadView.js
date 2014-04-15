@@ -3,12 +3,10 @@ define(function(require, exports, module) {
   var Surface     = require('famous/core/Surface');
   var Modifier    = require('famous/core/Modifier');
   var Transform   = require('famous/core/Transform');
-  var Utility     = require('famous/utilities/Utility');
   var RotatorView = require('views/RotatorView');
 
   function LoadView() {
     var windowWidth = window.innerWidth;
-    var windowHeight = window.innerHeight;
 
     View.apply(this, arguments);
 
@@ -37,12 +35,12 @@ define(function(require, exports, module) {
       transform: Transform.translate(0,0,-10)
     });
 
-    var node = this._add(this.visMod)
+    var node = this._add(this.visMod);
     node.add(this.backgroundMod).add(this.backgroundSurf);
     node.add(this.rotatorMod).add(this.rotatorView);
   }
 
-  LoadView.prototype = Object.create( View.prototype );
+  LoadView.prototype = Object.create(View.prototype);
   LoadView.prototype.constructor = LoadView;
 
   LoadView.prototype.show = function(cb) {

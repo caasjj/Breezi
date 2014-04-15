@@ -6,6 +6,27 @@ define(function(require, exports, module) {
   var Transitionable = require('famous/transitions/Transitionable');
   var Transform      = require('famous/core/Transform');
 
+  function ContentView() {
+    View.apply(this, arguments);
+    this.mod = new Modifier({
+      size: [undefined, 75],
+      origin: [0, 0.5]
+    });
+    this.surf = new Surface({
+      content: this.options.content,
+      classes: ['rotator']
+    });
+    this._add(this.mod).add(this.surf);
+  }
+
+  ContentView.prototype = Object.create(View.prototype);
+  ContentView.prototype.constructor = ContentView;
+
+  ContentView.DEFAULT_OPTIONS = {
+    content: null,
+    classes: null
+  };
+
   function RotatorView() {
     View.apply(this, arguments);
 
@@ -35,18 +56,18 @@ define(function(require, exports, module) {
   RotatorView.prototype.constructor = RotatorView;
 
   RotatorView.prototype.angleReader = function() {
-    this.angleMod.setTransform( 
-        Transform.multiply( Transform.translate(0,0,25),
-        Transform.rotateY( this.angleTransition.get() )) );
+    this.angleMod.setTransform(
+        Transform.multiply(Transform.translate(0,0,25),
+        Transform.rotateY(this.angleTransition.get())));
   };
 
   RotatorView.prototype.bindTransitionable = function() {
-    Engine.on('prerender', this.angleReader.bind( this ));
-  }
+    Engine.on('prerender', this.angleReader.bind(this));
+  };
 
   RotatorView.prototype.startSpinner = function() {
     this.run = true;
-    this.updateAngle(0.01);
+    this.updateAngle();
   };
 
   RotatorView.prototype.stopSpinner = function() {
@@ -55,45 +76,19 @@ define(function(require, exports, module) {
 
   RotatorView.prototype.updateAngle = function() {
     if (this.setAngle) {
-      this.setAngle = 0
+      this.setAngle = 0;
       this._eventOutput.emit('revolution');
-    } else {
+    }  // "stroustrup" forced by eslint
+    else {
       this.setAngle = 2 * Math.PI;
       this._eventOutput.emit('revolution');
-    };
-
-    this.angleTransition.set( this.setAngle, this.options.transition, this.updateAngle.bind(this) );
+    }
+    this.angleTransition.set(this.setAngle, this.options.transition, this.updateAngle.bind(this));
   };
 
   RotatorView.DEFAULT_OPTIONS = {
     content: null,
     transition: null
-  };
-
-  function ContentView() {
-    View.apply(this, arguments);  
-    var windowWidth = window.innerWidth;
-    var windowHeight = window.innerHeight;
-    var calculatedHeight = windowWidth/320 
-
-    this.mod = new Modifier({
-      size: [undefined, 75],
-      origin: [0, 0.5]
-    });
-
-    this.surf = new Surface({
-      content: this.options.content,
-      classes: ['rotator']
-    }); 
-    this._add(this.mod).add(this.surf);
-  }
-
-  ContentView.prototype = Object.create(View.prototype);
-  ContentView.prototype.constructor = ContentView;
-
-  ContentView.DEFAULT_OPTIONS = {
-    content: null,
-    classes: null
   };
 
   module.exports = RotatorView;
